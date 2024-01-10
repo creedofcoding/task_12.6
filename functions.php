@@ -2,47 +2,47 @@
 //исходный массив
 $example_persons_array = [
     [
-        'fullname' => 'Иванов Иван Иванович',
+        'fullname' => 'ИвАНов Иван Иванович',
         'job' => 'tester',
     ],
     [
-        'fullname' => 'Степанова Наталья Степановна',
+        'fullname' => 'СтеПАНова Наталья Степановна',
         'job' => 'frontend-developer',
     ],
     [
-        'fullname' => 'Пащенко Владимир Александрович',
+        'fullname' => 'ПАЩенко Владимир Александрович',
         'job' => 'analyst',
     ],
     [
-        'fullname' => 'Громов Александр Иванович',
+        'fullname' => 'ГРОМОВ Александр Иванович',
         'job' => 'fullstack-developer',
     ],
     [
-        'fullname' => 'Славин Семён Сергеевич',
+        'fullname' => 'СЛаВин Семён Сергеевич',
         'job' => 'analyst',
     ],
     [
-        'fullname' => 'Цой Владимир Антонович',
+        'fullname' => 'ЦОЙ Владимир Антонович',
         'job' => 'frontend-developer',
     ],
     [
-        'fullname' => 'Быстрая Юлия Сергеевна',
+        'fullname' => 'БыСТрая Юлия Сергеевна',
         'job' => 'PR-manager',
     ],
     [
-        'fullname' => 'Логинова Маргарита Антоновна',
+        'fullname' => 'ЛогиНова Маргарита Антоновна',
         'job' => 'UI/UX designer',
     ],
     [
-        'fullname' => 'Шматко Антонина Сергеевна',
+        'fullname' => 'ШМАТКО Антонина Сергеевна',
         'job' => 'HR-manager',
     ],
     [
-        'fullname' => 'Бардо Жаклин Фёдоровна',
+        'fullname' => 'БАРДО Жаклин Фёдоровна',
         'job' => 'android-developer',
     ],
     [
-        'fullname' => 'Шварцнегер Арнольд Густавович',
+        'fullname' => 'ШварцНЕГЕР Арнольд Густавович',
         'job' => 'babysitter',
     ],
     [
@@ -57,15 +57,19 @@ $personID = $example_persons_array[random_int(0, count($example_persons_array) -
 function getPartsFromFullname($fullName){
     $exploded = explode(" ", $fullName);
     $separated = [
-        'surname' => $exploded[0],
-        'name' => $exploded[1],
-        'patronomyc' => $exploded[2],
+        'surname' => mb_convert_case($exploded[0], MB_CASE_TITLE, "UTF-8"),
+        'name' => mb_convert_case($exploded[1], MB_CASE_TITLE, "UTF-8"),
+        'patronomyc' => mb_convert_case($exploded[2], MB_CASE_TITLE, "UTF-8"),
     ];
 
     return $separated;
 }
 
 function getFullnameFromParts($surname, $name, $patronomyc){
+    $surname = mb_convert_case($surname, MB_CASE_TITLE, "UTF-8");
+    $name = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
+    $patronomyc = mb_convert_case($patronomyc, MB_CASE_TITLE, "UTF-8");
+
     $fullName = [$surname, $name, $patronomyc];
     return implode(' ', $fullName);
 }
@@ -152,13 +156,13 @@ function getPerfectPartner($surname, $name, $patronomyc, $array){
     $randGender = getGenderFromName($randPerson);
     
     while ($mainGender == $randGender || $randGender === "Undefined"){
-        $randPerson = $array[rand(0,count($array)-1)]["fullname"];
+        $randPerson = $array[rand(0, count($array)-1)]["fullname"];
         $randGender = getGenderFromName($randPerson);
     }
 
     $shMainPerson = getShortName($fullName);
     $shRandPerson = getShortName($randPerson);
-    $percent = rand(50,100)+rand(0,99)/100;
+    $percent = rand(50, 100) + rand(0, 99) / 100;
 
     echo <<<HEREDOC
     $shMainPerson + $shRandPerson =<br>
